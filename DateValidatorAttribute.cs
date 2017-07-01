@@ -5,23 +5,23 @@ using System.Reflection;
 namespace ScissorValidations
 {
     /// <summary>
-    ///     Represents a validator attribute to handle DateTime-specific behaviours.
+    /// Represents a validator attribute to handle DateTime-specific behaviours.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DateValidatorAttribute : Attribute, IValidatorAttribute
     {
         /// <summary>
-        ///     Initializes a new DateValidator attribute for the DateTime property.
+        /// Initializes a new DateValidator attribute for the DateTime property.
         /// </summary>
-        /// <param name="fieldName"></param>
-        public DateValidatorAttribute(String fieldName)
+        /// <param name="fieldLabel"></param>
+        public DateValidatorAttribute(String fieldLabel)
             : this()
         {
-            FieldName = fieldName;
+            FieldLabel = fieldLabel;
         }
 
         /// <summary>
-        ///     Initializes a new DateValidator attribute for the DateTime property.
+        /// Initializes a new DateValidator attribute for the DateTime property.
         /// </summary>
         public DateValidatorAttribute()
         {
@@ -29,48 +29,61 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Gets or sets whether the date field should accepts future dates.
+        /// Gets or sets whether the date field should accepts future dates.
         /// </summary>
         public Boolean AllowFutureDate { get; set; }
 
         /// <summary>
-        ///     The minimum allowed date value.
+        /// The minimum allowed date value.
         /// </summary>
         public DateTime MinimumDate { get; set; }
 
         /// <summary>
-        ///     The maximum allowed date value.
+        /// The maximum allowed date value.
         /// </summary>
         public DateTime MaximumDate { get; set; }
 
         /// <summary>
-        ///     Gets or sets the friendly field name for the decorated property.
+        /// Gets or sets the label to use for the decorated property.
         /// </summary>
-        public String FieldName { get; set; }
+        public string FieldLabel { get; set; }
 
         /// <summary>
-        ///     Gets or sets whether the property field is a required field.
+        /// Gets or sets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 
-        public List<Validation> Validate(PropertyInfo property, String value)
+        public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {
             var validations = new List<Validation>();
 
-            var attr = (DateValidatorAttribute[]) property.GetCustomAttributes(typeof (DateValidatorAttribute), true);
+            var attr = (DateValidatorAttribute[])property.GetCustomAttributes(typeof(DateValidatorAttribute), true);
             if (attr.Length > 0)
             {
                 DateValidatorAttribute validator = attr[0];
 
-                DateTime dateValue;
-                if (!DateTime.TryParse(value, out dateValue))
-                    validations.Add(new Validation(property.Name, String.Format("{0} is not a recognized date value.", validator.FieldName)));
+                DateTime workingValue;
 
-                if (validator.IsRequired && dateValue == DateTime.MinValue)
-                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldName)));
+                if (!DateTime.TryParse(value, out workingValue))
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is not a recognized date value.", validator.FieldLabel)));
+                    return validations;
+                }
 
-                if (!validator.AllowFutureDate && dateValue > DateTime.Now)
-                    validations.Add(new Validation(property.Name, String.Format("{0} cannot be a future date.", validator.FieldName)));
+                if (validator.IsRequired && workingValue == DateTime.MinValue)
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldLabel)));
+                    return validations;
+                }
+
+                if (!validator.AllowFutureDate && workingValue > DateTime.Now)
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} cannot be a future date.", validator.FieldLabel)));
+                    return validations;
+                }
+
+                if (Validator.Settings.CopyValuesOnValidate)
+                    property.SetValue(entity, workingValue, null);
             }
 
             return validations;

@@ -14,13 +14,13 @@ namespace ScissorValidations
         /// <summary>
         ///     Initializes a new EmailValidator attribute for the String property.
         /// </summary>
-        /// <param name="fieldName"></param>
+        /// <param name="fieldLabel"></param>
         /// <param name="minSize"></param>
         /// <param name="maxSize"></param>
-        public EmailValidatorAttribute(String fieldName, Int32 minSize, Int32 maxSize)
+        public EmailValidatorAttribute(String fieldLabel, Int32 minSize, Int32 maxSize)
             : this()
         {
-            FieldName = fieldName;
+            FieldLabel = fieldLabel;
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -56,33 +56,39 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Gets or sets the friendly field name for the decorated property.
+        /// Gets or sets the label to use for the decorated property.
         /// </summary>
-        public String FieldName { get; set; }
+        public string FieldLabel { get; set; }
 
         /// <summary>
         ///     Gets or sets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 
-        public List<Validation> Validate(PropertyInfo property, String value)
+        public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {
             var validations = new List<Validation>();
 
-            var attr = (EmailValidatorAttribute[]) property.GetCustomAttributes(typeof (EmailValidatorAttribute), true);
+            var attr = (EmailValidatorAttribute[])property.GetCustomAttributes(typeof(EmailValidatorAttribute), true);
             if (attr.Length > 0)
             {
                 EmailValidatorAttribute validator = attr[0];
 
                 if (validator.IsRequired && value != null && value.Trim().Length > 0)
-                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldName)));
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldLabel)));
+                    return validations;
+                }
 
-                String regEx = validator.DefaultRegEx;
-                if (!String.IsNullOrEmpty(validator.CustomRegEx))
-                    regEx = validator.CustomRegEx;
-
+                String regEx = String.IsNullOrEmpty(validator.CustomRegEx) ? validator.DefaultRegEx : validator.CustomRegEx;
                 if (!String.IsNullOrEmpty(value) && Regex.IsMatch(value, regEx, RegexOptions.IgnoreCase))
-                    validations.Add(new Validation(property.Name, String.Format("{0} is not a valid email.", validator.FieldName)));
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is not a valid email.", validator.FieldLabel)));
+                    return validations;
+                }
+
+                if (Validator.Settings.CopyValuesOnValidate)
+                    property.SetValue(entity, value, null);
             }
 
             return validations;

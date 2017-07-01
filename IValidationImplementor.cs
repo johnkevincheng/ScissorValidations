@@ -10,6 +10,8 @@ namespace ScissorValidations
 
         void AttachValidators(IntValidatorAttribute validator, WebControl control);
 
+        void AttachValidators(DoubleValidatorAttribute validator, WebControl control);
+
         void AttachValidators(EmailValidatorAttribute validator, WebControl control);
     }
 }

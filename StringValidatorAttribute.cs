@@ -13,13 +13,13 @@ namespace ScissorValidations
         /// <summary>
         ///     Initializes a new StringValidator attribute for the String property.
         /// </summary>
-        /// <param name="fieldName"></param>
+        /// <param name="fieldLabel"></param>
         /// <param name="minSize"></param>
         /// <param name="maxSize"></param>
-        public StringValidatorAttribute(String fieldName, Int32 minSize, Int32 maxSize)
+        public StringValidatorAttribute(String fieldLabel, Int32 minSize, Int32 maxSize)
             : this()
         {
-            FieldName = fieldName;
+            FieldLabel = fieldLabel;
             MinSize = minSize;
             MaxSize = maxSize;
         }
@@ -48,32 +48,44 @@ namespace ScissorValidations
         public Boolean AllowRichText { get; set; }
 
         /// <summary>
-        ///     Gets or sets the friendly field name for the decorated property.
+        /// Gets or sets the label to use for the decorated property.
         /// </summary>
-        public String FieldName { get; set; }
+        public string FieldLabel { get; set; }
 
         /// <summary>
         ///     Gets or sets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 
-        public List<Validation> Validate(PropertyInfo property, String value)
+        public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {
             var validations = new List<Validation>();
 
-            var attr = (StringValidatorAttribute[]) property.GetCustomAttributes(typeof (StringValidatorAttribute), true);
+            var attr = (StringValidatorAttribute[])property.GetCustomAttributes(typeof(StringValidatorAttribute), true);
             if (attr.Length > 0)
             {
                 StringValidatorAttribute validator = attr[0];
 
                 if (validator.IsRequired && (value == null || value.Trim().Length <= 0))
-                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldName)));
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldLabel)));
+                    return validations;
+                }
 
-                if (value.Length > 0 && value.Length < validator.MinSize)
-                    validations.Add(new Validation(property.Name, String.Format("{0} must be more than {1} characters.", validator.FieldName, validator.MinSize)));
+                if (!String.IsNullOrEmpty(value) && value.Length < validator.MinSize)
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} must be more than {1} characters.", validator.FieldLabel, validator.MinSize)));
+                    return validations;
+                }
 
-                if (value.Length > 0 && value.Length > validator.MaxSize)
-                    validations.Add(new Validation(property.Name, String.Format("{0} must be less than {1} character(s).", validator.FieldName, validator.MaxSize)));
+                if (!String.IsNullOrEmpty(value) && value.Length > validator.MaxSize)
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} must be less than {1} character(s).", validator.FieldLabel, validator.MaxSize)));
+                    return validations;
+                }
+
+                if (Validator.Settings.CopyValuesOnValidate)
+                    property.SetValue(entity, value, null);
             }
 
             return validations;

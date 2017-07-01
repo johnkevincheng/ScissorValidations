@@ -10,50 +10,19 @@ namespace ScissorValidations
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class IntValidatorAttribute : Attribute, IValidatorAttribute
     {
-        public enum IntegerScope
-        {
-            Int16,
-            Int32,
-            Int64
-        }
-
         /// <summary>
         ///     Initializes a new IntValidator attribute for the Int property.
         /// </summary>
-        /// <param name="fieldName"></param>
+        /// <param name="fieldLabel"></param>
         /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        /// <param name="scope"></param>
-        public IntValidatorAttribute(string fieldName, Int64 minValue, Int64 maxValue, IntegerScope scope)
+        public IntValidatorAttribute(String fieldLabel, Int64 minValue, Int64 maxValue)
             : this()
         {
-            FieldName = fieldName;
-            Scope = scope;
+            FieldLabel = fieldLabel;
 
             MinValue = minValue;
             MaxValue = maxValue;
-
-            if (scope == IntegerScope.Int16)
-            {
-                if (MinValue < Int16.MinValue)
-                    MinValue = Int16.MinValue;
-                if (maxValue > Int16.MaxValue)
-                    MaxValue = Int16.MaxValue;
-            }
-            else if (scope == IntegerScope.Int32)
-            {
-                if (MinValue < Int32.MinValue)
-                    MinValue = Int32.MinValue;
-                if (maxValue > Int32.MaxValue)
-                    MaxValue = Int32.MaxValue;
-            }
-            else if (scope == IntegerScope.Int64)
-            {
-                if (MinValue < Int64.MinValue)
-                    MinValue = Int64.MinValue;
-                if (maxValue > Int64.MaxValue)
-                    MaxValue = Int64.MaxValue;
-            }
         }
 
         /// <summary>
@@ -62,11 +31,6 @@ namespace ScissorValidations
         public IntValidatorAttribute()
         {
         }
-
-        /// <summary>
-        ///     Gets or sets the Integer size.
-        /// </summary>
-        public IntegerScope Scope { get; set; }
 
         /// <summary>
         ///     Gets or sets the minimum integer size.
@@ -79,31 +43,62 @@ namespace ScissorValidations
         public Int64 MaxValue { get; set; }
 
         /// <summary>
-        ///     Gets or sets the friendly field name for the decorated property.
+        /// Gets or sets the label to use for the decorated property.
         /// </summary>
-        public String FieldName { get; set; }
+        public string FieldLabel { get; set; }
 
         /// <summary>
         ///     Gets or sets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 
-        public List<Validation> Validate(PropertyInfo property, String value)
+        public enum IntegerScope
+        {
+            Int16,
+            Int32,
+            Int64
+        }
+
+        public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {
             var validations = new List<Validation>();
 
-            var attr = (IntValidatorAttribute[]) property.GetCustomAttributes(typeof (IntValidatorAttribute), true);
+            var attr = (IntValidatorAttribute[])property.GetCustomAttributes(typeof(IntValidatorAttribute), true);
             if (attr.Length > 0)
             {
                 IntValidatorAttribute validator = attr[0];
 
-                Int64 intValue = 0;
+                if (property.PropertyType == typeof(Int16))
+                {
+                    if (MinValue < Int16.MinValue)
+                        MinValue = Int16.MinValue;
+                    if (MaxValue > Int16.MaxValue)
+                        MaxValue = Int16.MaxValue;
+                }
+                else if (property.PropertyType == typeof(Int32))
+                {
+                    if (MinValue < Int32.MinValue)
+                        MinValue = Int32.MinValue;
+                    if (MaxValue > Int32.MaxValue)
+                        MaxValue = Int32.MaxValue;
+                }
 
-                if (!Int64.TryParse(value, out intValue))
-                    validations.Add(new Validation(property.Name, String.Format("{0} is not recognized as a valid number.", validator.FieldName)));
+                Int64 workingValue = 0;
 
-                if (validator.IsRequired && intValue < validator.MinValue)
-                    validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldName)));
+                if (!Int64.TryParse(value, out workingValue))
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} is not recognized as a valid whole number.", validator.FieldLabel)));
+                    return validations;
+                }
+
+                if (validator.IsRequired && (workingValue < validator.MinValue || workingValue > validator.MaxValue))
+                {
+                    validations.Add(new Validation(property.Name, String.Format("{0} must be between {1} and {2}.", validator.FieldLabel, validator.MinValue, validator.MaxValue)));
+                    return validations;
+                }
+
+                if (Validator.Settings.CopyValuesOnValidate)
+                    property.SetValue(entity, workingValue, null);
             }
 
             return validations;
