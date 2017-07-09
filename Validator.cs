@@ -18,7 +18,7 @@ namespace ScissorValidations
         /// <param name="entity"></param>
         /// <param name="fieldMappings"></param>
         /// <returns></returns>
-        public static List<Validation> Validate<T>(T entity, Dictionary<String, FieldMap> fieldMappings) where T : class
+        public static ValidationResult Validate<T>(T entity, Dictionary<String, FieldMap> fieldMappings) where T : class
         {
             var validations = new List<Validation>();
 
@@ -39,7 +39,7 @@ namespace ScissorValidations
                 }
             }
 
-            return validations;
+            return new ValidationResult(validations);
         }
 
         public class FieldMap
