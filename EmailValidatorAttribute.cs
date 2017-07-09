@@ -74,14 +74,14 @@ namespace ScissorValidations
             {
                 EmailValidatorAttribute validator = attr[0];
 
-                if (validator.IsRequired && value != null && value.Trim().Length > 0)
+                if (validator.IsRequired && value != null && value.Trim().Length == 0)
                 {
                     validations.Add(new Validation(property.Name, String.Format("{0} is a required field.", validator.FieldLabel)));
                     return validations;
                 }
 
                 String regEx = String.IsNullOrEmpty(validator.CustomRegEx) ? validator.DefaultRegEx : validator.CustomRegEx;
-                if (!String.IsNullOrEmpty(value) && Regex.IsMatch(value, regEx, RegexOptions.IgnoreCase))
+                if (!String.IsNullOrEmpty(value) && !Regex.IsMatch(value, regEx, RegexOptions.IgnoreCase))
                 {
                     validations.Add(new Validation(property.Name, String.Format("{0} is not a valid email.", validator.FieldLabel)));
                     return validations;

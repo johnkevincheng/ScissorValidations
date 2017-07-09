@@ -98,7 +98,14 @@ namespace ScissorValidations
                 }
 
                 if (Validator.Settings.CopyValuesOnValidate)
-                    property.SetValue(entity, workingValue, null);
+                {
+                    if (property.PropertyType == typeof(Int64))
+                        property.SetValue(entity, workingValue, null);
+                    else if (property.PropertyType == typeof(Int32))
+                        property.SetValue(entity, Convert.ToInt32(workingValue), null);
+                    else if (property.PropertyType == typeof(Int16))
+                        property.SetValue(entity, Convert.ToInt16(workingValue), null);
+                }
             }
 
             return validations;
