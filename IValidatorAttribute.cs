@@ -6,7 +6,7 @@ namespace ScissorValidations
 {
     public interface IValidatorAttribute
     {
-        String FieldLabel { get; set; }
+        String FieldLabel { get; }
         Boolean IsRequired { get; set; }
 
         List<Validation> Validate<T>(T entity, PropertyInfo property, String value);

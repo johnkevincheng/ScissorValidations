@@ -29,27 +29,27 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        /// Gets or sets whether the date field should accepts future dates.
+        /// Gets whether the date field should accepts future dates.
         /// </summary>
         public Boolean AllowFutureDate { get; set; }
 
         /// <summary>
-        /// The minimum allowed date value.
+        /// Gets the minimum allowed date value.
         /// </summary>
         public DateTime MinimumDate { get; set; }
 
         /// <summary>
-        /// The maximum allowed date value.
+        /// Gets the maximum allowed date value.
         /// </summary>
         public DateTime MaximumDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the label to use for the decorated property.
+        /// Gets the label to use for the decorated property.
         /// </summary>
-        public string FieldLabel { get; set; }
+        public String FieldLabel { get; private set; }
 
         /// <summary>
-        /// Gets or sets whether the property field is a required field.
+        /// Gets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 

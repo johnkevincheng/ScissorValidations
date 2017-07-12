@@ -8,7 +8,7 @@ namespace ScissorValidations
     public sealed class DoubleValidatorAttribute : Attribute, IValidatorAttribute
     {
         /// <summary>
-        ///     Initializes a new DecimalValidator attribute for the floating-point number property.
+        /// Initializes a new DecimalValidator attribute for the floating-point number property.
         /// </summary>
         /// <param name="fieldLabel"></param>
         /// <param name="minValue"></param>
@@ -20,39 +20,38 @@ namespace ScissorValidations
 
             MinValue = minValue;
             MaxValue = maxValue;
+        }
 
+        /// <summary>
+        /// Initializes a new DecimalValidator attribute for the floating-point number property.
+        /// </summary>
+        public DoubleValidatorAttribute()
+        {
             Decimals = 2;
         }
 
         /// <summary>
-        ///     Initializes a new DecimalValidator attribute for the floating-point number property.
-        /// </summary>
-        public DoubleValidatorAttribute()
-        {
-        }
-
-        /// <summary>
-        /// Gets or sets the number of decimal places.
+        /// Gets the number of decimal places.
         /// </summary>
         public Int16 Decimals { get; set; }
 
         /// <summary>
-        ///     Gets or sets the minimum floating-point number size.
+        /// Gets the minimum floating-point number size.
         /// </summary>
-        public Double MinValue { get; set; }
+        public Double MinValue { get; private set; }
 
         /// <summary>
-        ///     Gets or sets the maximum floating-point number size.
+        /// Gets the maximum floating-point number size.
         /// </summary>
-        public Double MaxValue { get; set; }
+        public Double MaxValue { get; private set; }
 
         /// <summary>
-        /// Gets or sets the label to use for the decorated property.
+        /// Gets the label to use for the decorated property.
         /// </summary>
-        public string FieldLabel { get; set; }
+        public String FieldLabel { get; private set; }
 
         /// <summary>
-        ///     Gets or sets whether the property field is a required field.
+        /// Gets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 

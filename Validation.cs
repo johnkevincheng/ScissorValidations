@@ -10,7 +10,7 @@ namespace ScissorValidations
             Message = message;
         }
 
-        public String Field { get; set; }
-        public String Message { get; set; }
+        public String Field { get; private set; }
+        public String Message { get; private set; }
     }
 }

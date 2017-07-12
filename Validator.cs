@@ -7,12 +7,12 @@ using System.Web.UI.WebControls;
 namespace ScissorValidations
 {
     /// <summary>
-    ///     Represents the main Scissors Validation Framework validation processor class.
+    /// Represents the main Scissors Validation Framework validation processor class.
     /// </summary>
     public static class Validator
     {
         /// <summary>
-        ///     Validate data object's configured properties which matches the field mappings.
+        /// Validate data object's configured properties which matches the field mappings.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity"></param>
@@ -69,7 +69,7 @@ namespace ScissorValidations
 
 
         /// <summary>
-        ///     Decorate user interface controls with client-side validation configurations.
+        /// Decorate user interface controls with client-side validation configurations.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValidationImplentor"></typeparam>
@@ -106,7 +106,7 @@ namespace ScissorValidations
 
 
         /// <summary>
-        ///     Checks whether the PropertyInfo is decorated by the specified IValidatorAttribute.
+        /// Checks whether the PropertyInfo is decorated by the specified IValidatorAttribute.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="property"></param>

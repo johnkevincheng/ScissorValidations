@@ -11,7 +11,7 @@ namespace ScissorValidations
     public sealed class IntValidatorAttribute : Attribute, IValidatorAttribute
     {
         /// <summary>
-        ///     Initializes a new IntValidator attribute for the Int property.
+        /// Initializes a new IntValidator attribute for the Int property.
         /// </summary>
         /// <param name="fieldLabel"></param>
         /// <param name="minValue"></param>
@@ -26,38 +26,31 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Initializes a new IntValidator attribute for the Int property.
+        /// Initializes a new IntValidator attribute for the Int property.
         /// </summary>
         public IntValidatorAttribute()
         {
         }
 
         /// <summary>
-        ///     Gets or sets the minimum integer size.
+        /// Gets the minimum integer size.
         /// </summary>
-        public Int64 MinValue { get; set; }
+        public Int64 MinValue { get; private set; }
 
         /// <summary>
-        ///     Gets or sets the maximum integer size.
+        /// Gets the maximum integer size.
         /// </summary>
-        public Int64 MaxValue { get; set; }
+        public Int64 MaxValue { get; private set; }
 
         /// <summary>
-        /// Gets or sets the label to use for the decorated property.
+        /// Gets the label to use for the decorated property.
         /// </summary>
-        public string FieldLabel { get; set; }
+        public String FieldLabel { get; private set; }
 
         /// <summary>
-        ///     Gets or sets whether the property field is a required field.
+        /// Gets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
-
-        public enum IntegerScope
-        {
-            Int16,
-            Int32,
-            Int64
-        }
 
         public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {

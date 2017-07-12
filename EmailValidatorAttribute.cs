@@ -12,7 +12,7 @@ namespace ScissorValidations
     public sealed class EmailValidatorAttribute : Attribute, IValidatorAttribute
     {
         /// <summary>
-        ///     Initializes a new EmailValidator attribute for the String property.
+        /// Initializes a new EmailValidator attribute for the String property.
         /// </summary>
         /// <param name="fieldLabel"></param>
         /// <param name="minSize"></param>
@@ -26,29 +26,29 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Initializes a new EmailValidator attribute for the String property.
+        /// Initializes a new EmailValidator attribute for the String property.
         /// </summary>
         public EmailValidatorAttribute()
         {
         }
 
         /// <summary>
-        ///     Gets or sets the minimum text size.
+        /// Gets the minimum text size.
         /// </summary>
-        public Int32 MinSize { get; set; }
+        public Int32 MinSize { get; private set; }
 
         /// <summary>
-        ///     Gets or sets the maximum text size.
+        /// Gets the maximum text size.
         /// </summary>
-        public Int32 MaxSize { get; set; }
+        public Int32 MaxSize { get; private set; }
 
         /// <summary>
-        ///     The custom regular expression to use in place of the DefaultRegEx.
+        /// Gets the custom regular expression to use in place of the DefaultRegEx.
         /// </summary>
         public String CustomRegEx { get; set; }
 
         /// <summary>
-        ///     The default regular expression used to validate an email.
+        /// Gets the default regular expression used to validate an email.
         /// </summary>
         public String DefaultRegEx
         {
@@ -56,12 +56,12 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        /// Gets or sets the label to use for the decorated property.
+        /// Gets the label to use for the decorated property.
         /// </summary>
-        public string FieldLabel { get; set; }
+        public string FieldLabel { get; private set; }
 
         /// <summary>
-        ///     Gets or sets whether the property field is a required field.
+        /// Gets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 

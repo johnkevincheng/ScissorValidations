@@ -5,13 +5,13 @@ using System.Reflection;
 namespace ScissorValidations
 {
     /// <summary>
-    ///     Represents a validator attribute to handle String-specific behaviours.
+    /// Represents a validator attribute to handle String-specific behaviours.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class StringValidatorAttribute : Attribute, IValidatorAttribute
     {
         /// <summary>
-        ///     Initializes a new StringValidator attribute for the String property.
+        /// Initializes a new StringValidator attribute for the String property.
         /// </summary>
         /// <param name="fieldLabel"></param>
         /// <param name="minSize"></param>
@@ -25,7 +25,7 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Initializes a new StringValidator attribute for the String property.
+        /// Initializes a new StringValidator attribute for the String property.
         /// </summary>
         public StringValidatorAttribute()
         {
@@ -33,27 +33,27 @@ namespace ScissorValidations
         }
 
         /// <summary>
-        ///     Gets or sets the minimum text size.
+        /// Gets the minimum text size.
         /// </summary>
-        public Int32 MinSize { get; set; }
+        public Int32 MinSize { get; private set; }
 
         /// <summary>
-        ///     Gets or sets the maximum text size.
+        /// Gets the maximum text size.
         /// </summary>
-        public Int32 MaxSize { get; set; }
+        public Int32 MaxSize { get; private set; }
 
         /// <summary>
-        ///     Gets or sets whether to allow rich text editors for this field.
+        /// Gets whether to allow rich text editors for this field.
         /// </summary>
         public Boolean AllowRichText { get; set; }
 
         /// <summary>
-        /// Gets or sets the label to use for the decorated property.
+        /// Gets the label to use for the decorated property.
         /// </summary>
-        public string FieldLabel { get; set; }
+        public String FieldLabel { get; private set; }
 
         /// <summary>
-        ///     Gets or sets whether the property field is a required field.
+        /// Gets whether the property field is a required field.
         /// </summary>
         public Boolean IsRequired { get; set; }
 
