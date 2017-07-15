@@ -43,6 +43,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ValidationImplementors\WinFormsValidationImplmentor.cs" />
     <Compile Include="Validators\DoubleValidatorAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\DateValidatorAttribute.cs" />
@@ -55,7 +56,7 @@
     <Compile Include="ValidationImplementors\BootstrapValidationImplementor.cs" />
     <Compile Include="ValidationResult.cs" />
     <Compile Include="Validator.cs" />
-    <Compile Include="WebHelper.cs" />
+    <Compile Include="FieldHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

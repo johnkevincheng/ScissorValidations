@@ -13,11 +13,41 @@ namespace ScissorValidations.Validators
         /// <summary>
         /// Initializes a new DateValidator attribute for the DateTime property.
         /// </summary>
-        /// <param name="fieldLabel"></param>
+        /// <param name="fieldLabel">The friendly field name to show in findings.</param>
         public DateValidatorAttribute(String fieldLabel)
             : this()
         {
             FieldLabel = fieldLabel;
+        }
+
+        /// <summary>
+        /// Initializes a new DateValidator attribute for the DateTime property.
+        /// </summary>
+        /// <param name="fieldLabel">The friendly field name to show in findings.</param>
+        /// <param name="minDate">The minimum date in the format yyyy-mm-dd.</param>
+        public DateValidatorAttribute(String fieldLabel, String minDate)
+            : this()
+        {
+            FieldLabel = fieldLabel;
+
+            DateTime workingDate;
+            if (DateTime.TryParse(minDate, out workingDate)) MinimumDate = workingDate;
+        }
+
+        /// <summary>
+        /// Initializes a new DateValidator attribute for the DateTime property.
+        /// </summary>
+        /// <param name="fieldLabel">The friendly field name to show in findings.</param>
+        /// <param name="minDate">The minimum date in the format yyyy-mm-dd.</param>
+        /// <param name="maxDate">The maximum date in the format yyyy-mm-dd.</param>
+        public DateValidatorAttribute(String fieldLabel, String minDate, String maxDate)
+            : this()
+        {
+            FieldLabel = fieldLabel;
+
+            DateTime workingDate;
+            if (DateTime.TryParse(minDate, out workingDate)) MinimumDate = workingDate;
+            if (DateTime.TryParse(maxDate, out workingDate)) MaximumDate = workingDate;
         }
 
         /// <summary>
@@ -36,12 +66,12 @@ namespace ScissorValidations.Validators
         /// <summary>
         /// Gets the minimum allowed date value.
         /// </summary>
-        public DateTime MinimumDate { get; set; }
+        public DateTime MinimumDate { get; private set; }
 
         /// <summary>
         /// Gets the maximum allowed date value.
         /// </summary>
-        public DateTime MaximumDate { get; set; }
+        public DateTime MaximumDate { get; private set; }
 
         /// <summary>
         /// Gets the label to use for the decorated property.
@@ -53,6 +83,14 @@ namespace ScissorValidations.Validators
         /// </summary>
         public Boolean IsRequired { get; set; }
 
+        /// <summary>
+        /// Validate the Date field using date-specific validation strategies.
+        /// </summary>
+        /// <typeparam name="T">The type of the data object whose fields are being validated.</typeparam>
+        /// <param name="entity">The data object whose fields are being validated.</param>
+        /// <param name="property">The reflected PropertyInfo which contains the validation attributes.</param>
+        /// <param name="value">The field value to validate.</param>
+        /// <returns></returns>
         public List<Validation> Validate<T>(T entity, PropertyInfo property, String value)
         {
             var validations = new List<Validation>();
