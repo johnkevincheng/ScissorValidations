@@ -18,7 +18,7 @@ namespace ScissorValidations
         /// <param name="entity"></param>
         /// <param name="fieldMappings"></param>
         /// <returns></returns>
-        public static ValidationResult Validate<T>(T entity, Dictionary<String, FieldMap> fieldMappings) where T : class
+        public static ValidationResult Validate<T>(T entity, Dictionary<String, String> fieldMappings) where T : class
         {
             var validations = new List<Validation>();
 
@@ -29,7 +29,7 @@ namespace ScissorValidations
             {
                 if (fieldMappings != null && (fieldMappings.ContainsKey(property.Name)))
                 {
-                    String propertyValue = fieldMappings[property.Name].FieldValue;
+                    String propertyValue = fieldMappings[property.Name];
 
                     validations.AddRange(ValidateByAttribute<StringValidatorAttribute, T>(entity, property, propertyValue));
                     validations.AddRange(ValidateByAttribute<DateValidatorAttribute, T>(entity, property, propertyValue));
@@ -40,18 +40,6 @@ namespace ScissorValidations
             }
 
             return new ValidationResult(validations);
-        }
-
-        public class FieldMap
-        {
-            public WebControl WebControl { get; set; }
-            public String FieldValue { get; set; }
-
-            public FieldMap(WebControl webControl, String fieldValue)
-            {
-                this.WebControl = webControl;
-                this.FieldValue = fieldValue;
-            }
         }
 
         private static List<Validation> ValidateByAttribute<TValidatorAttribute, T>(T entity, PropertyInfo property, String value)
@@ -82,7 +70,7 @@ namespace ScissorValidations
             {
                 if (fieldMappings.ContainsKey(property.Name))
                 {
-                    KeyValuePair<string, WebControl> fieldMap = fieldMappings.First(p => p.Key == property.Name);
+                    KeyValuePair<String, WebControl> fieldMap = fieldMappings.First(p => p.Key == property.Name);
 
                     var validator = new TValidationImplentor();
 
