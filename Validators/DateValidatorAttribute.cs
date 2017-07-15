@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ScissorValidations
+namespace ScissorValidations.Validators
 {
     /// <summary>
     /// Represents a validator attribute to handle DateTime-specific behaviours.

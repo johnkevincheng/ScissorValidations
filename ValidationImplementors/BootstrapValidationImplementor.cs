@@ -1,77 +1,77 @@
 ﻿using System;
 using System.Globalization;
-using System.Web.UI.WebControls;
+using ScissorValidations.Validators;
 
 namespace ScissorValidations.ValidationImplementors
 {
     public class BootstrapValidationImplementor : IValidationImplementor
     {
-        public void AttachValidators(StringValidatorAttribute validator, WebControl control)
+        public void AttachValidators(StringValidatorAttribute validator, Object control)
         {
-            control.Attributes.Add("minlength", validator.MinSize.ToString(CultureInfo.InvariantCulture));
-            control.Attributes.Add("maxlength", validator.MaxSize.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "minlength", validator.MinSize.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "maxlength", validator.MaxSize.ToString(CultureInfo.InvariantCulture));
 
             if (validator.IsRequired)
-                control.Attributes.Add("required", "required");
+                WebHelper.ApplyWebControlAttribute(control, "required", "required");
 
-            control.Attributes.Add("data-error", "test message");
+            WebHelper.ApplyWebControlAttribute(control, "data-error", "test message");
         }
 
-        public void AttachValidators(DateValidatorAttribute validator, WebControl control)
+        public void AttachValidators(DateValidatorAttribute validator, Object control)
         {
-            control.Attributes.Add("type", "date");
+            WebHelper.ApplyWebControlAttribute(control, "type", "date");
 
             if (validator.IsRequired)
-                control.Attributes.Add("required", "required");
+                WebHelper.ApplyWebControlAttribute(control, "required", "required");
 
-            control.Attributes.Add("max", validator.MaximumDate.ToString(CultureInfo.InvariantCulture));
-            control.Attributes.Add("min", validator.MinimumDate.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "max", validator.MaximumDate.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "min", validator.MinimumDate.ToString(CultureInfo.InvariantCulture));
 
             if (!validator.AllowFutureDate && validator.MaximumDate > DateTime.UtcNow)
-                control.Attributes.Add("max", DateTime.Now.Date.ToString(CultureInfo.InvariantCulture));
+                WebHelper.ApplyWebControlAttribute(control, "max", DateTime.Now.Date.ToString(CultureInfo.InvariantCulture));
 
-            control.Attributes.Add("data-error", "test message");
+            WebHelper.ApplyWebControlAttribute(control, "data-error", "test message");
         }
 
-        public void AttachValidators(IntValidatorAttribute validator, WebControl control)
+        public void AttachValidators(IntValidatorAttribute validator, Object control)
         {
-            control.Attributes.Add("type", "number");
+            WebHelper.ApplyWebControlAttribute(control, "type", "number");
 
-            control.Attributes.Add("min", validator.MinValue.ToString(CultureInfo.InvariantCulture));
-            control.Attributes.Add("max", validator.MaxValue.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "min", validator.MinValue.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "max", validator.MaxValue.ToString(CultureInfo.InvariantCulture));
 
             if (validator.IsRequired)
-                control.Attributes.Add("required", "required");
+                WebHelper.ApplyWebControlAttribute(control, "required", "required");
 
-            control.Attributes.Add("data-error", "test message");
+            WebHelper.ApplyWebControlAttribute(control, "data-error", "test message");
         }
 
-        public void AttachValidators(DoubleValidatorAttribute validator, WebControl control)
+        public void AttachValidators(DoubleValidatorAttribute validator, Object control)
         {
-            control.Attributes.Add("type", "number");
+            WebHelper.ApplyWebControlAttribute(control, "type", "number");
 
-            control.Attributes.Add("step", Convert.ToString(1.0 / Math.Pow(10.0, validator.Decimals)));
+            WebHelper.ApplyWebControlAttribute(control, "step", Convert.ToString(1.0 / Math.Pow(10.0, validator.Decimals)));
 
-            control.Attributes.Add("min", validator.MinValue.ToString(CultureInfo.InvariantCulture));
-            control.Attributes.Add("max", validator.MaxValue.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "min", validator.MinValue.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "max", validator.MaxValue.ToString(CultureInfo.InvariantCulture));
 
             if (validator.IsRequired)
-                control.Attributes.Add("required", "required");
+                WebHelper.ApplyWebControlAttribute(control, "required", "required");
 
-            control.Attributes.Add("data-error", "test message");
+            WebHelper.ApplyWebControlAttribute(control, "data-error", "test message");
         }
 
-        public void AttachValidators(EmailValidatorAttribute validator, WebControl control)
+        public void AttachValidators(EmailValidatorAttribute validator, Object control)
         {
-            control.Attributes.Add("type", "email");
+            WebHelper.ApplyWebControlAttribute(control, "type", "email");
 
-            control.Attributes.Add("minlength", validator.MinSize.ToString(CultureInfo.InvariantCulture));
-            control.Attributes.Add("maxlength", validator.MaxSize.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "minlength", validator.MinSize.ToString(CultureInfo.InvariantCulture));
+            WebHelper.ApplyWebControlAttribute(control, "maxlength", validator.MaxSize.ToString(CultureInfo.InvariantCulture));
 
             if (validator.IsRequired)
-                control.Attributes.Add("required", "required");
+                WebHelper.ApplyWebControlAttribute(control, "required", "required");
 
-            control.Attributes.Add("data-error", "test message");
+            WebHelper.ApplyWebControlAttribute(control, "data-error", "test message");
         }
     }
 }

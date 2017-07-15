@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ScissorValidations
+namespace ScissorValidations.Validators
 {
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class DoubleValidatorAttribute : Attribute, IValidatorAttribute

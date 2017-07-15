@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace ScissorValidations
+namespace ScissorValidations.Validators
 {
     /// <summary>
     ///     Represents a validator attribute to handle email-specific behaviours.

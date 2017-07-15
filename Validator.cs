@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web.UI.WebControls;
+using ScissorValidations.ValidationImplementors;
+using ScissorValidations.Validators;
 
 namespace ScissorValidations
 {
@@ -62,7 +63,7 @@ namespace ScissorValidations
         /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValidationImplentor"></typeparam>
         /// <param name="fieldMappings"></param>
-        public static void InitializeClientValidators<TEntity, TValidationImplentor>(Dictionary<String, WebControl> fieldMappings) where TValidationImplentor : IValidationImplementor, new()
+        public static void InitializeClientValidators<TEntity, TValidationImplentor>(Dictionary<String, Object> fieldMappings) where TValidationImplentor : IValidationImplementor, new()
         {
             PropertyInfo[] properties = typeof(TEntity).GetProperties();
 
@@ -70,7 +71,7 @@ namespace ScissorValidations
             {
                 if (fieldMappings.ContainsKey(property.Name))
                 {
-                    KeyValuePair<String, WebControl> fieldMap = fieldMappings.First(p => p.Key == property.Name);
+                    KeyValuePair<String, Object> fieldMap = fieldMappings.First(p => p.Key == property.Name);
 
                     var validator = new TValidationImplentor();
 
@@ -83,7 +84,7 @@ namespace ScissorValidations
             }
         }
 
-        private static void InitializeClientByAttribute<T>(PropertyInfo property, WebControl control, Action<T, WebControl> decoratorAction) where T : IValidatorAttribute
+        private static void InitializeClientByAttribute<T>(PropertyInfo property, Object control, Action<T, Object> decoratorAction) where T : IValidatorAttribute
         {
             if (HasAttribute<T>(property)) // Check if the property is decorated by attribute T. We should be assured of at least one such IValidatorAttribute if true.
             {
