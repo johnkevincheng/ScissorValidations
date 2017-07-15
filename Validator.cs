@@ -61,9 +61,33 @@ namespace ScissorValidations
         /// Decorate user interface controls with client-side validation configurations.
         /// </summary>
         /// <typeparam name="TEntity"></typeparam>
+        /// <param name="fieldMappings"></param>
+        public static void InitializeClientValidators<TEntity>(Dictionary<String, Object> fieldMappings)
+        {
+            if (Settings.DefaultImplementor == null)
+                throw new NullReferenceException("Default Implementor has not been set yet.");
+
+            InitializeClientValidators<TEntity>(fieldMappings, Settings.DefaultImplementor);
+        }
+
+        /// <summary>
+        /// Decorate user interface controls with client-side validation configurations.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
         /// <typeparam name="TValidationImplentor"></typeparam>
         /// <param name="fieldMappings"></param>
         public static void InitializeClientValidators<TEntity, TValidationImplentor>(Dictionary<String, Object> fieldMappings) where TValidationImplentor : IValidationImplementor, new()
+        {
+            InitializeClientValidators<TEntity>(fieldMappings, new TValidationImplentor());
+        }
+
+        /// <summary>
+        /// Decorate user interface controls with client-side validation configurations.
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <param name="fieldMappings"></param>
+        /// <param name="validator"></param>
+        private static void InitializeClientValidators<TEntity>(Dictionary<String, Object> fieldMappings, IValidationImplementor validator)
         {
             PropertyInfo[] properties = typeof(TEntity).GetProperties();
 
@@ -72,8 +96,6 @@ namespace ScissorValidations
                 if (fieldMappings.ContainsKey(property.Name))
                 {
                     KeyValuePair<String, Object> fieldMap = fieldMappings.First(p => p.Key == property.Name);
-
-                    var validator = new TValidationImplentor();
 
                     InitializeClientByAttribute<StringValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
                     InitializeClientByAttribute<DateValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
@@ -106,6 +128,9 @@ namespace ScissorValidations
         }
 
 
+        /// <summary>
+        /// Sets various global Scissor Validations settings.
+        /// </summary>
         public static ScissorsSettings Settings = new ScissorsSettings();
 
         public class ScissorsSettings
@@ -115,7 +140,15 @@ namespace ScissorValidations
 
             }
 
+            /// <summary>
+            /// Gets or sets whether validating fields copies validated data to that field.
+            /// </summary>
             public Boolean CopyValuesOnValidate { get; set; }
+
+            /// <summary>
+            /// Gets or sets the default client-validation implementor to use.
+            /// </summary>
+            public IValidationImplementor DefaultImplementor { get; set; }
         }
     }
 }
