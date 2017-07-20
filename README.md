@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/johnkevincheng/SupportFiles/master/ScissorValidationsWikiFiles/ScissorsLibraryLogo.png)
+
 # Scissors Validation Library
 
 A validations library automating both client-side and server-side validations.
@@ -29,3 +31,9 @@ See also the list of [contributors](https://github.com/johnkevincheng/ScissorVal
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+Bootstrap validation plugin by [Bootstrap Validator](http://1000hz.github.io/bootstrap-validator/)
+
+Scissors icon by [Icons Land](http://www.icons-land.com)
