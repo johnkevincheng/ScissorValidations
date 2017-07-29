@@ -43,7 +43,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="ScissorsSettings.cs" />
     <Compile Include="ValidationImplementors\WinFormsValidationImplmentor.cs" />
     <Compile Include="Validators\DoubleValidatorAttribute.cs" />

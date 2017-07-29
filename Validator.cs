@@ -15,9 +15,9 @@ namespace ScissorValidations
         /// <summary>
         /// Validate data object's configured properties which matches the field mappings.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="entity"></param>
-        /// <param name="fieldMappings"></param>
+        /// <typeparam name="T">The type of the data class containing the validation rules.</typeparam>
+        /// <param name="entity">The data class instance containing the validation rules. Also the same instance to receive validated data if Validator.Settings.CopyValuesOnValidate is set.</param>
+        /// <param name="fieldMappings">The property/value mapping to identify the property to the value to validate.</param>
         /// <returns></returns>
         public static ValidationResult Validate<T>(T entity, Dictionary<String, String> fieldMappings) where T : class
         {
@@ -32,36 +32,21 @@ namespace ScissorValidations
                 {
                     String propertyValue = fieldMappings[property.Name];
 
-                    validations.AddRange(ValidateByAttribute<StringValidatorAttribute, T>(entity, property, propertyValue));
-                    validations.AddRange(ValidateByAttribute<DateValidatorAttribute, T>(entity, property, propertyValue));
-                    validations.AddRange(ValidateByAttribute<IntValidatorAttribute, T>(entity, property, propertyValue));
-                    validations.AddRange(ValidateByAttribute<DoubleValidatorAttribute, T>(entity, property, propertyValue));
-                    validations.AddRange(ValidateByAttribute<EmailValidatorAttribute, T>(entity, property, propertyValue));
+                    var validatorAttributes = property.GetCustomAttributes(typeof(IValidatorAttribute), true).OfType<IValidatorAttribute>();
+                    foreach (var validatorAttribute in validatorAttributes)
+                        validations.AddRange(validatorAttribute.Validate(entity, property, propertyValue));
                 }
             }
 
             return new ValidationResult(validations);
         }
 
-        private static List<Validation> ValidateByAttribute<TValidatorAttribute, T>(T entity, PropertyInfo property, String value)
-            where TValidatorAttribute : IValidatorAttribute, new()
-            where T : class
-        {
-            if (property.HasAttribute<TValidatorAttribute>()) // Don't process this property if it doesn't have IValidatorAttribute.
-            {
-                var validator = Activator.CreateInstance<TValidatorAttribute>();
-                return validator.Validate(entity, property, value);
-            }
-
-            return new List<Validation>();
-        }
-
 
         /// <summary>
         /// Decorate user interface controls with client-side validation configurations.
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <param name="fieldMappings"></param>
+        /// <typeparam name="TEntity">The type of the data class containing the validation rules.</typeparam>
+        /// <param name="fieldMappings">The property/control mapping to identify the property to the control to decorate.</param>
         public static void InitializeClientValidators<TEntity>(Dictionary<String, Object> fieldMappings)
         {
             if (Settings.DefaultImplementor == null)
@@ -73,45 +58,30 @@ namespace ScissorValidations
         /// <summary>
         /// Decorate user interface controls with client-side validation configurations.
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
-        /// <typeparam name="TValidationImplentor"></typeparam>
-        /// <param name="fieldMappings"></param>
-        public static void InitializeClientValidators<TEntity, TValidationImplentor>(Dictionary<String, Object> fieldMappings) where TValidationImplentor : IValidationImplementor, new()
+        /// <typeparam name="TEntity">The type of the data class containing the validation rules.</typeparam>
+        /// <typeparam name="TValidationImplementor">The IValidationImplementor implementation to use to decorate the controls.</typeparam>
+        /// <param name="fieldMappings">The property/control mapping to identify the property to the control to decorate.</param>
+        public static void InitializeClientValidators<TEntity, TValidationImplementor>(Dictionary<String, Object> fieldMappings) where TValidationImplementor : IValidationImplementor, new()
         {
-            InitializeClientValidators<TEntity>(fieldMappings, new TValidationImplentor());
+            InitializeClientValidators<TEntity>(fieldMappings, new TValidationImplementor());
         }
 
         /// <summary>
         /// Decorate user interface controls with client-side validation configurations.
         /// </summary>
-        /// <typeparam name="TEntity"></typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="fieldMappings"></param>
-        /// <param name="validator"></param>
-        private static void InitializeClientValidators<TEntity>(Dictionary<String, Object> fieldMappings, IValidationImplementor validator)
+        /// <param name="validationImplementor"></param>
+        private static void InitializeClientValidators<T>(Dictionary<String, Object> fieldMappings, IValidationImplementor validationImplementor)
         {
-            PropertyInfo[] properties = typeof(TEntity).GetProperties();
+            PropertyInfo[] properties = typeof(T).GetProperties();
 
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property in properties.Where(p => fieldMappings.ContainsKey(p.Name)))
             {
-                if (fieldMappings.ContainsKey(property.Name))
-                {
-                    KeyValuePair<String, Object> fieldMap = fieldMappings.First(p => p.Key == property.Name);
+                KeyValuePair<String, Object> fieldMap = fieldMappings.First(p => p.Key == property.Name);
+                var attributes = property.GetCustomAttributes(typeof(IValidatorAttribute), true).OfType<IValidatorAttribute>().ToList();
 
-                    InitializeClientByAttribute<StringValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
-                    InitializeClientByAttribute<DateValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
-                    InitializeClientByAttribute<IntValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
-                    InitializeClientByAttribute<DoubleValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
-                    InitializeClientByAttribute<EmailValidatorAttribute>(property, fieldMap.Value, validator.AttachValidators);
-                }
-            }
-        }
-
-        private static void InitializeClientByAttribute<T>(PropertyInfo property, Object control, Action<T, Object> decoratorAction) where T : IValidatorAttribute
-        {
-            if (property.HasAttribute<T>()) // Check if the property is decorated by attribute T. We should be assured of at least one such IValidatorAttribute if true.
-            {
-                var attribute = (T)property.GetCustomAttributes(typeof(T), true)[0];
-                decoratorAction(attribute, control);
+                validationImplementor.AttachValidators(attributes, fieldMap.Value);
             }
         }
 
