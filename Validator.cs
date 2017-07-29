@@ -47,7 +47,7 @@ namespace ScissorValidations
             where TValidatorAttribute : IValidatorAttribute, new()
             where T : class
         {
-            if (HasAttribute<TValidatorAttribute>(property)) // Don't process this property if it doesn't have IValidatorAttribute.
+            if (property.HasAttribute<TValidatorAttribute>()) // Don't process this property if it doesn't have IValidatorAttribute.
             {
                 var validator = Activator.CreateInstance<TValidatorAttribute>();
                 return validator.Validate(entity, property, value);
@@ -108,7 +108,7 @@ namespace ScissorValidations
 
         private static void InitializeClientByAttribute<T>(PropertyInfo property, Object control, Action<T, Object> decoratorAction) where T : IValidatorAttribute
         {
-            if (HasAttribute<T>(property)) // Check if the property is decorated by attribute T. We should be assured of at least one such IValidatorAttribute if true.
+            if (property.HasAttribute<T>()) // Check if the property is decorated by attribute T. We should be assured of at least one such IValidatorAttribute if true.
             {
                 var attribute = (T)property.GetCustomAttributes(typeof(T), true)[0];
                 decoratorAction(attribute, control);
@@ -117,38 +117,8 @@ namespace ScissorValidations
 
 
         /// <summary>
-        /// Checks whether the PropertyInfo is decorated by the specified IValidatorAttribute.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="property"></param>
-        /// <returns></returns>
-        private static Boolean HasAttribute<T>(PropertyInfo property) where T : IValidatorAttribute
-        {
-            return Attribute.IsDefined(property, typeof(T));
-        }
-
-
-        /// <summary>
         /// Sets various global Scissor Validations settings.
         /// </summary>
         public static ScissorsSettings Settings = new ScissorsSettings();
-
-        public class ScissorsSettings
-        {
-            internal ScissorsSettings()
-            {
-
-            }
-
-            /// <summary>
-            /// Gets or sets whether validating fields copies validated data to that field.
-            /// </summary>
-            public Boolean CopyValuesOnValidate { get; set; }
-
-            /// <summary>
-            /// Gets or sets the default client-validation implementor to use.
-            /// </summary>
-            public IValidationImplementor DefaultImplementor { get; set; }
-        }
     }
 }
