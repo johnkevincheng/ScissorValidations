@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.ValidationImplementors;
 
 namespace ScissorsTestWindows
 {
@@ -27,7 +27,7 @@ namespace ScissorsTestWindows
                                     {"Rating", ratingInput.Text}
                                 };
 
-            var validation = ScissorValidations.Validator.Validate(p, fieldMappings);
+            var validation = RockFluid.ScissorValidations.Validator.Validate(p, fieldMappings);
 
             if (validation.Failed)
                 errorList.DataSource = validation.Findings;
@@ -47,7 +47,7 @@ namespace ScissorsTestWindows
                                     {"YearsExperience", yearsOfExperienceInput},
                                     {"Rating", ratingInput}
                                 };
-            ScissorValidations.Validator.InitializeClientValidators<Employee, ExtendedWinFormsValidationImplementor>(fieldMappings);
+            RockFluid.ScissorValidations.Validator.InitializeClientValidators<Employee, ExtendedWinFormsValidationImplementor>(fieldMappings);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-using ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.ValidationImplementors;
 
-namespace ScissorValidations
+namespace RockFluid.ScissorValidations
 {
     public class ScissorsSettings
     {

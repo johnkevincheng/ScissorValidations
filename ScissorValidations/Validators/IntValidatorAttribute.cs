@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ScissorValidations.Validators
+namespace RockFluid.ScissorValidations.Validators
 {
     /// <summary>
     ///     Represents a validator attribute to handle Integer-specific behaviours.

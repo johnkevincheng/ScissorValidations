@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ScissorsTest.Entities;
-using ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.ValidationImplementors;
 
 namespace ScissorsTest
 {
@@ -19,7 +19,7 @@ namespace ScissorsTest
                                     {"YearsExperience", yearsExperienceInput},
                                     {"Rating", ratingInput}
                                 };
-            ScissorValidations.Validator.InitializeClientValidators<Employee, BootstrapValidationImplementor>(fieldMappings);
+            RockFluid.ScissorValidations.Validator.InitializeClientValidators<Employee, BootstrapValidationImplementor>(fieldMappings);
             //ScissorValidations.Validator.InitializeClientValidators<Employee>(fieldMappings);
         }
 
@@ -41,7 +41,7 @@ namespace ScissorsTest
                                     {"Rating", ratingInput.Text}
                                 };
 
-            var validation = ScissorValidations.Validator.Validate(p, fieldMappings);
+            var validation = RockFluid.ScissorValidations.Validator.Validate(p, fieldMappings);
 
             if (validation.Failed)
             {

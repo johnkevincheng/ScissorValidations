@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace ScissorValidations
+namespace RockFluid.ScissorValidations
 {
     public class FieldHelper
     {

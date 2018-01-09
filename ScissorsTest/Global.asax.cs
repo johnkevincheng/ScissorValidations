@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.SessionState;
-using ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.ValidationImplementors;
 
 namespace ScissorsTest
 {
@@ -15,7 +15,7 @@ namespace ScissorsTest
         {
             // Code that runs on application startup
 
-            ScissorValidations.Validator.Settings.CopyValuesOnValidate = true;
+            RockFluid.ScissorValidations.Validator.Settings.CopyValuesOnValidate = true;
             //ScissorValidations.Validator.Settings.DefaultImplementor = new BootstrapValidationImplementor();
         }
 

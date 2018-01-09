@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ScissorValidations.Validators
+namespace RockFluid.ScissorValidations.Validators
 {
     public interface IValidatorAttribute
     {

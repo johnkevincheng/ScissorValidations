@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ScissorValidations
+namespace RockFluid.ScissorValidations
 {
     public class ValidationResult
     {

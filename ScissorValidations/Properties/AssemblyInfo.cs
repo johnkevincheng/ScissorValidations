@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ScissorValidations")]
 [assembly: AssemblyDescription("A validations framework automating both client-side and server-side validations.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rapid Streams")]
+[assembly: AssemblyCompany("John Kevin Cheng")]
 [assembly: AssemblyProduct("Scissor Validations Framework")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]

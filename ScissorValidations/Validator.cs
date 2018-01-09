@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ScissorValidations.ValidationImplementors;
-using ScissorValidations.Validators;
+using RockFluid.ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.Validators;
 
-namespace ScissorValidations
+namespace RockFluid.ScissorValidations
 {
     /// <summary>
     /// Represents the main Scissors Validation Framework validation processor class.

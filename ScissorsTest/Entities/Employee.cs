@@ -1,5 +1,5 @@
 ﻿using System;
-using ScissorValidations.Validators;
+using RockFluid.ScissorValidations.Validators;
 
 namespace ScissorsTest.Entities
 {

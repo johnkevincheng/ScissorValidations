@@ -8,8 +8,8 @@
     <ProjectGuid>{21CBD756-0200-415E-8D8D-0810A4C00C82}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScissorValidations</RootNamespace>
-    <AssemblyName>ScissorValidations</AssemblyName>
+    <RootNamespace>RockFluid</RootNamespace>
+    <AssemblyName>RockFluid.ScissorValidations</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>

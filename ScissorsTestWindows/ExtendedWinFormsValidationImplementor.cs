@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using ScissorValidations;
-using ScissorValidations.ValidationImplementors;
-using ScissorValidations.Validators;
+using RockFluid.ScissorValidations;
+using RockFluid.ScissorValidations.ValidationImplementors;
+using RockFluid.ScissorValidations.Validators;
 
 namespace ScissorsTestWindows
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ScissorValidations
+namespace RockFluid.ScissorValidations
 {
     public class Validation
     {

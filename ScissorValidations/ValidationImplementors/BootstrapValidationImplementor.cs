@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using ScissorValidations.Validators;
+using RockFluid.ScissorValidations.Validators;
 
-namespace ScissorValidations.ValidationImplementors
+namespace RockFluid.ScissorValidations.ValidationImplementors
 {
     public class BootstrapValidationImplementor : IValidationImplementor
     {
