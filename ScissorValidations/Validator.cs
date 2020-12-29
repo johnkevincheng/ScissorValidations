@@ -16,7 +16,7 @@ namespace RockFluid.ScissorValidations
         /// Validate data object's configured properties which matches the field mappings.
         /// </summary>
         /// <typeparam name="T">The type of the data class containing the validation rules.</typeparam>
-        /// <param name="entity">The data class instance containing the validation rules. Also the same instance to receive validated data if Validator.Settings.CopyValuesOnValidate is set.</param>
+        /// <param name="entity">The data class containing the validation rules. Also the same instance to receive validated data if Validator.Settings.CopyValuesOnValidate is set.</param>
         /// <param name="fieldMappings">The property/value mapping to identify the property to the value to validate.</param>
         /// <returns></returns>
         public static ValidationResult Validate<T>(T entity, Dictionary<String, String> fieldMappings) where T : class
@@ -36,6 +36,29 @@ namespace RockFluid.ScissorValidations
                     foreach (var validatorAttribute in validatorAttributes)
                         validations.AddRange(validatorAttribute.Validate(entity, property, propertyValue));
                 }
+            }
+
+            return new ValidationResult(validations);
+        }
+
+        /// <summary>
+        /// Validate data object's properties based on configured attributes.
+        /// </summary>
+        /// <typeparam name="T">The type of the data class containing the validation rules.</typeparam>
+        /// <param name="entity">The data class instance containing the validation rules and whose data the validation shall be checked on.</param>
+        /// <returns></returns>
+        public static ValidationResult Validate<T>(T entity) where T : class
+        {
+            var validations = new List<Validation>();
+
+            Type type = entity.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+
+            foreach (PropertyInfo property in properties)
+            {
+                var validatorAttributes = property.GetCustomAttributes(typeof(IValidatorAttribute), true).OfType<IValidatorAttribute>();
+                foreach (var validatorAttribute in validatorAttributes)
+                    validations.AddRange(validatorAttribute.Validate(entity, property, Convert.ToString(property.GetValue(entity, null))));
             }
 
             return new ValidationResult(validations);

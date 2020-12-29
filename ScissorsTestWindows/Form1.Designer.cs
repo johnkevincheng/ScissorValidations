@@ -44,6 +44,7 @@
             this.employmentDateInput = new System.Windows.Forms.DateTimePicker();
             this.submitButton = new System.Windows.Forms.Button();
             this.errorList = new System.Windows.Forms.DataGridView();
+            this.submitObjectButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorList)).BeginInit();
             this.SuspendLayout();
             // 
@@ -161,11 +162,11 @@
             // 
             // submitButton
             // 
-            this.submitButton.Location = new System.Drawing.Point(275, 203);
+            this.submitButton.Location = new System.Drawing.Point(215, 203);
             this.submitButton.Name = "submitButton";
-            this.submitButton.Size = new System.Drawing.Size(75, 23);
+            this.submitButton.Size = new System.Drawing.Size(135, 23);
             this.submitButton.TabIndex = 14;
-            this.submitButton.Text = "Submit";
+            this.submitButton.Text = "Submit (Mapped)";
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
@@ -180,11 +181,22 @@
             this.errorList.Size = new System.Drawing.Size(296, 176);
             this.errorList.TabIndex = 15;
             // 
+            // submitObjectButton
+            // 
+            this.submitObjectButton.Location = new System.Drawing.Point(215, 232);
+            this.submitObjectButton.Name = "submitObjectButton";
+            this.submitObjectButton.Size = new System.Drawing.Size(135, 23);
+            this.submitObjectButton.TabIndex = 16;
+            this.submitObjectButton.Text = "Submit (Object)";
+            this.submitObjectButton.UseVisualStyleBackColor = true;
+            this.submitObjectButton.Click += new System.EventHandler(this.submitObjectButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(726, 287);
+            this.Controls.Add(this.submitObjectButton);
             this.Controls.Add(this.errorList);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.employmentDateInput);
@@ -228,6 +240,7 @@
         private System.Windows.Forms.DateTimePicker employmentDateInput;
         private System.Windows.Forms.Button submitButton;
         private System.Windows.Forms.DataGridView errorList;
+        private System.Windows.Forms.Button submitObjectButton;
     }
 }
 

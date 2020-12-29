@@ -286,3 +286,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/ScissorValidations/ScissorValidations.nuspec
+/ScissorValidations/nuget.exe
+/Package.nuspec
+/nuget.exe
